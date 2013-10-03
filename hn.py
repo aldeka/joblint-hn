@@ -48,8 +48,7 @@ def parse_hn():
                 print "Warning, failed to get " + link
             else:
                 text = r.text
-                title = get_title(text)
-                fout = open(AD_DIR + '/' + title + '.html', 'w')
+                fout = open(AD_DIR + '/' + slugify(link) + '.html', 'w')
                 fout.write(text.encode('utf-8'))
                 print "."
                 # let's not DDOS HN (or any other job site)
@@ -79,14 +78,6 @@ def get_job_links(text):
             url = URL + '?' + url
         links.append(url)
     return links
-
-
-def get_title(text):
-    '''Returns the title of an HTML page in slugify'd form'''
-    parsed = html.fromstring(text)
-    sel = CSSSelector('title')
-    title = sel(parsed)[0].text_content()
-    return slugify(title)
 
 
 if __name__=='__main__':
